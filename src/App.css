@@ -24,16 +24,16 @@
 }
 
 .moneyList {
-  padding: 20px;
+  padding: 10px;
   list-style: none;
-  width: 100%;
+  width: 80%;
   color:whitesmoke
 }
 
 .moneyListItem {
   display: flex;
   align-items: center;
-  padding: 5px;
+  padding: 2px;
   border-radius: 5px;
   color: whitesmoke;
 }
@@ -44,7 +44,7 @@
 
 .moneyListItemNumber {
   width: 30%;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 100;
 }
 
