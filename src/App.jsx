@@ -5,7 +5,7 @@ import Timer from "./components/Timer";
 import Trivia from "./components/Trivia";
 
 function App() {
-  const data = [
+  const dataAsk = [
     {
       id: 1,
       question: "Diabetes, ¿qué es eso?",
@@ -52,7 +52,8 @@ function App() {
     },
     {
       id: 3,
-      question: "¿Por qué un niño/a con diabetes tipo 1 debe depender de insulina?",
+      question:
+        "¿Por qué un niño/a con diabetes tipo 1 debe depender de insulina?",
       answers: [
         {
           text: "Porque sin insulina las células no tienen azúcar de donde sacar energía",
@@ -74,7 +75,8 @@ function App() {
     },
     {
       id: 4,
-      question: "¿Qué sucede cuando un niño con diabetes tipo 1 no se inyecta insulina?",
+      question:
+        "¿Qué sucede cuando un niño con diabetes tipo 1 no se inyecta insulina?",
       answers: [
         {
           text: "Glucosa por encima de 300 y ningún otro síntoma",
@@ -228,7 +230,8 @@ function App() {
     },
     {
       id: 11,
-      question: "¿Por qué es importante llevar un cuaderno de control de glicemias?",
+      question:
+        "¿Por qué es importante llevar un cuaderno de control de glicemias?",
       answers: [
         {
           text: "Para saber cómo están tus niveles de glucosa.",
@@ -250,7 +253,8 @@ function App() {
     },
     {
       id: 12,
-      question: "Cada cuánto se debe hacer el examen de hemoglobina glicosilada HB1AC",
+      question:
+        "Cada cuánto se debe hacer el examen de hemoglobina glicosilada HB1AC",
       answers: [
         {
           text: "Cada año.",
@@ -272,7 +276,8 @@ function App() {
     },
     {
       id: 13,
-      question: "Qué pasa con la glucosa del cuerpo cuando se come carbohidratos",
+      question:
+        "Qué pasa con la glucosa del cuerpo cuando se come carbohidratos",
       answers: [
         {
           text: "Tu glucosa se eleva. ",
@@ -338,7 +343,8 @@ function App() {
     },
     {
       id: 16,
-      question: "Cuáles son los alimentos que contienen demasiados carbohidratos",
+      question:
+        "Cuáles son los alimentos que contienen demasiados carbohidratos",
       answers: [
         {
           text: "Pan, colas, pasteles, arroz.",
@@ -382,7 +388,8 @@ function App() {
     },
     {
       id: 18,
-      question: "Un hábito saludable para la alimentación de la persona con diabetes consiste en:",
+      question:
+        "Un hábito saludable para la alimentación de la persona con diabetes consiste en:",
       answers: [
         {
           text: "Tomar 2 vasos de agua al día",
@@ -426,7 +433,8 @@ function App() {
     },
     {
       id: 20,
-      question: " El conteo de carbohidratos es una herramienta que permite principalmente:",
+      question:
+        " El conteo de carbohidratos es una herramienta que permite principalmente:",
       answers: [
         {
           text: "Comer el alimento que uno desee",
@@ -492,7 +500,8 @@ function App() {
     },
     {
       id: 23,
-      question: "Una persona con diabetes está resolviendo una prueba escolar que situación puede ocurrirle:",
+      question:
+        "Una persona con diabetes está resolviendo una prueba escolar que situación puede ocurrirle:",
       answers: [
         {
           text: "El estrés puede elevar los niveles de glucosa en sangre",
@@ -514,7 +523,8 @@ function App() {
     },
     {
       id: 24,
-      question: "Para una persona con diabetes tipo 1 los refrigerios de media mañana y media tarde deben ser:",
+      question:
+        "Para una persona con diabetes tipo 1 los refrigerios de media mañana y media tarde deben ser:",
       answers: [
         {
           text: "Ricos en grasa, pero antes debe medir la glucosa y si es necesario aplicarse insulina",
@@ -536,7 +546,8 @@ function App() {
     },
     {
       id: 25,
-      question: "¿Qué efectos tiene el ejercicio sobre el nivel de glucosa en sangre?",
+      question:
+        "¿Qué efectos tiene el ejercicio sobre el nivel de glucosa en sangre?",
       answers: [
         {
           text: "Aumenta la absorción de la insulina",
@@ -620,22 +631,22 @@ d) 	Consumo de un alimento en mal estado
 Respuesta: a) quiere decir que está en una hiperglicemia y que también está pasando por un proceso de gastroparesia.
 */
   ];
-  let listNumberQuestions = []
 
-  const randomNumber = () => {
-    let number = Math.floor(Math.floor(Math.random() * data.length - 1) + 1)
-    if (listNumberQuestions.includes(number)) {
-      number = Math.floor(Math.floor(Math.random() * data.length - 1) + 1)
-    }
-    listNumberQuestions.push(number);
-    return number
+
+
+  function shuffleArray(array) {
+    array.sort(() => Math.random() - 0.5);
   }
+
+  const data = useMemo(() => {
+    shuffleArray(dataAsk);
+    return dataAsk;
+  }, [dataAsk]);
 
   const [username, setUsername] = useState(null);
   const [timeOut, setTimeOut] = useState(false);
-  const [questionNumber, setQuestionNumber] = useState(randomNumber());
+  const [questionNumber, setQuestionNumber] = useState(1);
   const [earned, setEarned] = useState("");
-
 
   const moneyPyramid = useMemo(
     () =>
@@ -673,9 +684,8 @@ Respuesta: a) quiere decir que está en una hiperglicemia y que también está p
     window.location.reload();
   }
   useEffect(() => {
-    console.log(listNumberQuestions);
     questionNumber > 1 &&
-      setEarned(moneyPyramid[questionNumber].amount);
+    setEarned(moneyPyramid.find((m) => m.id === questionNumber - 1).amount);
   }, [questionNumber, moneyPyramid]);
 
   return (
@@ -690,7 +700,6 @@ Respuesta: a) quiere decir que está en una hiperglicemia y que también está p
                 <h1 className="endText">Tu ganaste: {earned}</h1>
                 <button onClick={reload}>Reiniciar</button>
               </div>
-
             ) : (
               <>
                 <div className="top">
@@ -717,7 +726,7 @@ Respuesta: a) quiere decir que está en una hiperglicemia y que también está p
               {moneyPyramid.map((m) => (
                 <li
                   className={
-                    listNumberQuestions.length === m.id
+                    questionNumber === m.id
                       ? "moneyListItem active"
                       : "moneyListItem"
                   }
